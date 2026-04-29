@@ -1,24 +1,21 @@
 import ResetPasswordForm from "@/components/auth/ResetPasswordForm";
-import { Box } from "@mui/material";
-import { Typography } from "antd";
 
 const ResetPassword = () => {
   return (
-    <Box className="sm:w-[26%] w-[90%] border-white -mt-4 m-auto rounded-lg bg-white p-5 flex flex-col items-center justify-center">
-      <Box className=" w-full">
-        <Typography
-          className="text-[22px] font-bold"
-          style={{ fontFamily: "segoe ui" }}>
-          Password Reset
-        </Typography>
+    <div className="w-full">
+      <div className="mb-6">
+        <h1
+          className="text-2xl font-bold text-gray-900"
+          style={{ fontFamily: "eczar" }}>
+          Reset Password
+        </h1>
+        <p className="text-gray-400 text-sm mt-1">
+          Enter your new password below.
+        </p>
+      </div>
 
-        <Typography className="text-[12px] font-semibold -mt-1 text-[#acaba9]">
-          Please enter your new password below.
-        </Typography>
-
-        <ResetPasswordForm />
-      </Box>
-    </Box>
+      <ResetPasswordForm />
+    </div>
   );
 };
 

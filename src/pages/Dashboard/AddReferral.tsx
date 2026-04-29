@@ -1,22 +1,19 @@
 import AddReferralForm from "@/components/dashboard_components/forms/AddReferralForm";
-import { Box } from "@mui/material";
-import { Typography } from "antd";
+import PageHeader from "@/components/ui/PageHeader";
 
 const AddReferral = () => {
   return (
-    <Box className="sm:w-[40%] w-[100%] rounded-md shadow-md bg-white m-auto border p-5 mt-5 ">
-      <Typography
-        className="text-[17px] font-bold"
-        style={{ fontFamily: "eczar" }}>
-        Add New Referral.
-      </Typography>
-      <Typography className="text-[12px] font-semibold -mt-1 text-[#acaba9]">
-        Please enter referral details below
-      </Typography>
-      <Box>
+    <div className="max-w-lg">
+      <PageHeader
+        title="Add New Referral"
+        subtitle="Enter the referral's details below"
+        backHref="/dashboard/referrals"
+        backLabel="Back to Referrals"
+      />
+      <div className="bg-white rounded-xl border border-gray-100 p-6">
         <AddReferralForm />
-      </Box>
-    </Box>
+      </div>
+    </div>
   );
 };
 

@@ -2,24 +2,40 @@ import ProfileDetails from "@/components/dashboard_components/ProfileDetails";
 import { FetchReferralDetails } from "@/services/features/referral/referralSlice";
 import { FetchUserWallet } from "@/services/features/wallet/walletSlice";
 import { AppDispatch } from "@/store";
-import { Box } from "@mui/material";
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const Profile = () => {
   const dispatch = useDispatch<AppDispatch>();
+  const { user } = useSelector((state: any) => state.user);
+
+  const initials = user?.fullname
+    ?.split(" ")
+    .map((n: string) => n[0])
+    .join("")
+    .toUpperCase()
+    .slice(0, 2);
 
   useEffect(() => {
     dispatch(FetchUserWallet());
     dispatch(FetchReferralDetails());
   }, []);
+
   return (
     <div>
-      <Box className="h-[40vh] bg-gradient-to-br from-blue-800 via-sky-200 to-black rounded-lg border">
-        <Box className="sm:w-[70%] w-[90%] m-auto mt-32 rounded-md shadow-md bg-white border py-4">
-          <ProfileDetails />
-        </Box>
-      </Box>
+      {/* Banner */}
+      <div className="bg-gradient-to-br from-primary via-blue-700 to-blue-900 rounded-2xl h-32 relative mb-14">
+        <div className="absolute -bottom-12 left-6">
+          <div className="w-24 h-24 rounded-full bg-primary border-4 border-white flex items-center justify-center text-white text-2xl font-bold shadow-lg">
+            {initials}
+          </div>
+        </div>
+      </div>
+
+      {/* Profile card */}
+      <div className="bg-white rounded-xl border border-gray-100 p-6">
+        <ProfileDetails />
+      </div>
     </div>
   );
 };

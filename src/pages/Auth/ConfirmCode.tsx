@@ -1,26 +1,28 @@
 import { ConfirmCodeForm } from "@/components/auth/ConfirmCodeForm";
 import useConfirmCodeForm from "@/hooks/form-hooks/useConfirmCodeForm";
-import { Box } from "@mui/material";
-import { Typography } from "antd";
 
 const ConfirmCode = () => {
   const { user } = useConfirmCodeForm();
-  return (
-    <Box className="sm:w-[26%] w-[95%] border-white m-auto rounded-lg bg-white  p-5 flex flex-col items-center justify-center">
-      <Box className="text-center w-full">
-        <Typography
-          className="text-[22px] font-bold"
-          style={{ fontFamily: "segoe ui" }}>
-          Verification code.
-        </Typography>
-        <Typography className="text-[12px] font-semibold -mt-1 text-[#acaba9]">
-          A 5-digit code has been sent to your email address{" "}
-          <span className="font-bold">{user?.email}.</span>
-        </Typography>
 
-        <ConfirmCodeForm />
-      </Box>
-    </Box>
+  return (
+    <div className="w-full">
+      <div className="mb-6 text-center">
+        <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
+          <span className="text-primary text-xl font-bold">✉</span>
+        </div>
+        <h1
+          className="text-2xl font-bold text-gray-900"
+          style={{ fontFamily: "eczar" }}>
+          Verification code
+        </h1>
+        <p className="text-gray-400 text-sm mt-2 leading-relaxed">
+          A 5-digit code has been sent to{" "}
+          <span className="font-semibold text-gray-700">{user?.email}</span>
+        </p>
+      </div>
+
+      <ConfirmCodeForm />
+    </div>
   );
 };
 

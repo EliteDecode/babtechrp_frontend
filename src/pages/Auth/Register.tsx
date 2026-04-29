@@ -1,38 +1,47 @@
 import RegisterForm from "@/components/auth/RegisterForm";
 import SignUpOptions from "@/components/auth/SignUpOptions";
-import { Box, Divider } from "@mui/material";
-import { Typography } from "antd";
 import { Link } from "react-router-dom";
 
 const Register = () => {
   return (
-    <Box className="sm:w-[26%] w-[90%] border-white -mt-4 m-auto rounded-lg bg-white  p-5 flex flex-col items-center justify-center">
-      <Box className="w-full">
-        <Typography
-          className="text-[22px] font-bold"
-          style={{ fontFamily: "segoe ui" }}>
-          Refer and Earn.
-        </Typography>
-        <Typography className="text-[20px] font-semibold -mt-1 text-[#acaba9]">
-          Create an account with BST
-        </Typography>
-        <SignUpOptions />
-        <Divider>
-          <Typography className="text-gray-500 text-[12px]"> Or </Typography>
-        </Divider>
-        <RegisterForm />
-        <Box>
-          <Typography className="text-[11px]">
-            Already have an account?{" "}
-            <Link to="/auth/login">
-              <span className="text-primary hover:underline font-bold cursor-pointer">
-                Sign In
-              </span>
-            </Link>
-          </Typography>
-        </Box>
-      </Box>
-    </Box>
+    <div className="w-full">
+      <div className="mb-6">
+        <h1
+          className="text-2xl font-bold text-gray-900"
+          style={{ fontFamily: "eczar" }}>
+          Refer and Earn
+        </h1>
+        <p className="text-gray-400 text-sm mt-1">
+          Create your BST account
+        </p>
+      </div>
+
+      <SignUpOptions />
+
+      <div className="relative my-5">
+        <div className="absolute inset-0 flex items-center">
+          <div className="w-full border-t border-gray-100" />
+        </div>
+        <div className="relative flex justify-center text-xs">
+          <span className="bg-white px-3 text-gray-400">
+            or continue with email
+          </span>
+        </div>
+      </div>
+
+      <RegisterForm />
+
+      <div className="mt-5">
+        <p className="text-xs text-gray-500">
+          Already have an account?{" "}
+          <Link
+            to="/auth/login"
+            className="text-primary font-semibold hover:underline">
+            Sign In
+          </Link>
+        </p>
+      </div>
+    </div>
   );
 };
 

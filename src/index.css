@@ -166,57 +166,155 @@
   cursor: pointer;
 }
 
-/* Dashboard Navbar */
-
-.showSidebar {
-  left: 0px !important;
+/* ===== Auth Layout ===== */
+.auth-root {
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
 }
+
+.auth-bg-mobile {
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(160deg, hsl(240 100% 13%) 0%, hsl(240 70% 28%) 100%);
+  z-index: 0;
+}
+
+.auth-brand-panel {
+  display: none;
+}
+
+.auth-form-panel {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #ffffff;
+  border-radius: 26px 26px 0 0;
+  z-index: 20;
+  max-height: 84vh;
+  overflow-y: auto;
+  padding: 1rem 1.5rem 2.5rem;
+  animation: authDrawerUp 0.38s cubic-bezier(0.32, 0.72, 0, 1);
+  box-shadow: 0 -8px 48px rgba(0, 0, 80, 0.22);
+}
+
+.auth-drawer-pill {
+  width: 36px;
+  height: 4px;
+  background: #e2e8f0;
+  border-radius: 9px;
+  margin: 0 auto 1.25rem;
+}
+
+@keyframes authDrawerUp {
+  from { transform: translateY(60px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+
+@media (min-width: 640px) {
+  .auth-root {
+    display: flex;
+    min-height: 100vh;
+    overflow: visible;
+  }
+
+  .auth-bg-mobile {
+    display: none;
+  }
+
+  .auth-brand-panel {
+    display: flex;
+    flex-direction: column;
+    width: 44%;
+    min-height: 100vh;
+    background: linear-gradient(160deg, hsl(240 100% 13%) 0%, hsl(240 70% 28%) 100%);
+    padding: 2.5rem;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+
+  .auth-brand-panel::before {
+    content: '';
+    position: absolute;
+    top: -120px;
+    right: -120px;
+    width: 380px;
+    height: 380px;
+    background: rgba(255, 255, 255, 0.04);
+    border-radius: 50%;
+    pointer-events: none;
+  }
+
+  .auth-brand-panel::after {
+    content: '';
+    position: absolute;
+    bottom: -90px;
+    left: -90px;
+    width: 300px;
+    height: 300px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 50%;
+    pointer-events: none;
+  }
+
+  .auth-drawer-pill {
+    display: none;
+  }
+
+  .auth-form-panel {
+    position: static;
+    flex: 1;
+    background: #ffffff;
+    border-radius: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2.5rem;
+    min-height: 100vh;
+    overflow-y: auto;
+    animation: none;
+    max-height: none;
+    box-shadow: none;
+  }
+}
+
+/* ===== Dashboard Layout ===== */
 
 .transit {
-  transition: all 0.8s ease;
-}
-.header {
-  width: 86%;
+  transition: all 0.35s ease;
 }
 
+/* Sidebar: fixed pixel width on desktop, slide-in on mobile */
 .sidebar {
-  width: 14%;
-  position: relative;
+  width: 220px;
+}
+
+.showSidebar {
+  left: 0 !important;
 }
 
 @media screen and (max-width: 767px) {
   .sidebar {
-    left: -10000000px;
-    width: 100%;
-    position: absolute;
+    position: fixed;
+    top: 0;
+    left: -100%;
+    width: 270px;
     height: 100%;
-    overflow: hidden;
-  }
-
-  .header {
-    width: 100%;
+    z-index: 30;
   }
 }
 
-@media screen and (min-width: 768px) and (max-width: 830px) {
+@media screen and (min-width: 768px) and (max-width: 900px) {
   .sidebar {
-    width: 30%;
-  }
-
-  .header {
-    width: 70%;
+    width: 190px;
   }
 }
 
-@media screen and (min-width: 831px) and (max-width: 1245px) {
-  .sidebar {
-    width: 25%;
-  }
-
-  .header {
-    width: 75%;
-  }
-}
+/* header class: main content column width is handled by flex-1 in DashboardLayout */
 
 /* Profile */
 .profile-header {

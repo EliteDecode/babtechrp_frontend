@@ -1,177 +1,95 @@
+import DataTable, { Column } from "@/components/ui/DataTable";
 import { IWithdrawal } from "@/types/wallet.types";
-import { SearchOutlined } from "@ant-design/icons";
-import { Box } from "@mui/material";
-import type { InputRef, TableColumnsType, TableColumnType } from "antd";
-import { Button, Input, Space, Table } from "antd";
-import type { FilterDropdownProps } from "antd/es/table/interface";
-import React, { useRef, useState } from "react";
-import Highlighter from "react-highlight-words";
-import { LuPartyPopper } from "react-icons/lu";
-import { MdCancel, MdInfoOutline } from "react-icons/md";
-import { SlCalender } from "react-icons/sl";
+import { CheckCircle2, Clock, XCircle } from "lucide-react";
 import { useSelector } from "react-redux";
 
-type DataIndex = keyof IWithdrawal;
+const Badge = ({
+  variant,
+  children,
+}: {
+  variant: "success" | "warning" | "danger" | "purple";
+  children: React.ReactNode;
+}) => {
+  const styles = {
+    success: "bg-green-50 text-green-700 border-green-100",
+    warning: "bg-orange-50 text-orange-600 border-orange-100",
+    danger: "bg-red-50 text-red-600 border-red-100",
+    purple: "bg-purple-50 text-purple-600 border-purple-100",
+  };
+  return (
+    <span
+      className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-semibold border ${styles[variant]}`}>
+      {children}
+    </span>
+  );
+};
 
 const WithdrawalTable: React.FC = () => {
   const { withdrawals } = useSelector((state: any) => state.wallet);
-  const [searchText, setSearchText] = useState("");
-  const [searchedColumn, setSearchedColumn] = useState("");
-  const searchInput = useRef<InputRef>(null);
 
-  const handleSearch = (
-    selectedKeys: string[],
-    confirm: FilterDropdownProps["confirm"],
-    dataIndex: DataIndex
-  ) => {
-    confirm();
-    setSearchText(selectedKeys[0]);
-    setSearchedColumn(dataIndex);
-  };
-
-  const handleReset = (clearFilters: () => void) => {
-    clearFilters();
-    setSearchText("");
-  };
-
-  const getColumnSearchProps = (
-    dataIndex: DataIndex
-  ): TableColumnType<IWithdrawal> => ({
-    filterDropdown: ({
-      setSelectedKeys,
-      selectedKeys,
-      confirm,
-      clearFilters,
-      close,
-    }) => (
-      <div style={{ padding: 8 }} onKeyDown={(e) => e.stopPropagation()}>
-        <Input
-          ref={searchInput}
-          placeholder={`Search ${dataIndex}`}
-          value={selectedKeys[0]}
-          onChange={(e) =>
-            setSelectedKeys(e.target.value ? [e.target.value] : [])
-          }
-          onPressEnter={() =>
-            handleSearch(selectedKeys as string[], confirm, dataIndex)
-          }
-          style={{ marginBottom: 8, display: "block" }}
-        />
-        <Space>
-          <Button
-            type="primary"
-            onClick={() =>
-              handleSearch(selectedKeys as string[], confirm, dataIndex)
-            }
-            icon={<SearchOutlined />}
-            size="small"
-            style={{ width: 90 }}>
-            Search
-          </Button>
-          <Button
-            onClick={() => clearFilters && handleReset(clearFilters)}
-            size="small"
-            style={{ width: 90 }}>
-            Reset
-          </Button>
-          <Button
-            type="link"
-            size="small"
-            onClick={() => {
-              confirm({ closeDropdown: false });
-              setSearchText((selectedKeys as string[])[0]);
-              setSearchedColumn(dataIndex);
-            }}>
-            Filter
-          </Button>
-          <Button
-            type="link"
-            size="small"
-            onClick={() => {
-              close();
-            }}>
-            close
-          </Button>
-        </Space>
-      </div>
-    ),
-    filterIcon: (filtered: boolean) => (
-      <SearchOutlined style={{ color: filtered ? "#1677ff" : undefined }} />
-    ),
-    onFilter: (value, record) =>
-      record[dataIndex]
-        .toString()
-        .toLowerCase()
-        .includes((value as string).toLowerCase()),
-    onFilterDropdownOpenChange: (visible) => {
-      if (visible) {
-        setTimeout(() => searchInput.current?.select(), 100);
-      }
-    },
-    render: (text) =>
-      searchedColumn === dataIndex ? (
-        <Highlighter
-          highlightStyle={{ backgroundColor: "#ffc069", padding: 0 }}
-          searchWords={[searchText]}
-          autoEscape
-          textToHighlight={text ? text.toString() : ""}
-        />
-      ) : (
-        text
-      ),
-  });
-
-  const columns: TableColumnsType<IWithdrawal> = [
+  const columns: Column<IWithdrawal>[] = [
     {
+      key: "amount",
       title: "Amount",
       dataIndex: "amount",
-      key: "amount",
-      ...getColumnSearchProps("amount"),
-      render: (_, record) => (
-        <span className="text-[12px]">{record?.amount.toLocaleString()}</span>
-      ),
-    },
-
-    {
-      title: "Transaction Status",
-      render: (_, record) => (
-        <Box>
-          {record.status === "approved" ? (
-            <div className="text-green-500 flex items-center space-x-1 sm:w-[65%] w-full m-auto justify-center capitalize border text-[11px]  bg-green-50 rounded-lg py-0.5 px-1 ">
-              <LuPartyPopper /> <span className="text-[9px]">Paid</span>
-            </div>
-          ) : record.status === "pending" ? (
-            <div className="text-orange-500 flex items-center space-x-1 sm:w-[65%] w-full m-auto justify-center capitalize border text-[11px]  bg-orange-50 rounded-lg py-0.5 px-1 ">
-              <MdInfoOutline /> <span className="text-[9px]">Pending</span>
-            </div>
-          ) : (
-            <div className="text-red-500 flex items-center space-x-1 sm:w-[65%] w-full m-auto justify-center capitalize border text-[11px]  bg-red-50 rounded-lg py-0.5 px-1 ">
-              <MdCancel /> <span className="text-[9px]">Declined</span>
-            </div>
-          )}
-        </Box>
+      render: (val) => (
+        <span className="text-xs font-bold text-gray-900">
+          ₦{Number(val).toLocaleString()}
+        </span>
       ),
     },
     {
+      key: "status",
+      title: "Status",
+      align: "center",
+      render: (_, record) => {
+        if (record.status === "approved")
+          return (
+            <Badge variant="success">
+              <CheckCircle2 size={10} />
+              Approved
+            </Badge>
+          );
+        if (record.status === "pending")
+          return (
+            <Badge variant="warning">
+              <Clock size={10} />
+              Pending
+            </Badge>
+          );
+        return (
+          <Badge variant="danger">
+            <XCircle size={10} />
+            Declined
+          </Badge>
+        );
+      },
+    },
+    {
+      key: "date",
       title: "Date",
+      align: "center",
       render: (_, record) => (
-        <Box>
-          <div className="text-purple-500 flex items-center space-x-1 sm:w-[65%] w-full m-auto justify-center capitalize border text-[11px]  bg-purple-50 rounded-lg py-0.5 px-1 ">
-            <SlCalender />{" "}
-            <span className="text-[9px]">
-              {new Date(record.date).toLocaleString("en", {
-                year: "numeric",
-                month: "short",
-                day: "numeric",
-              })}
-            </span>
-          </div>
-        </Box>
+        <Badge variant="purple">
+          {new Date(record.date).toLocaleDateString("en", {
+            year: "numeric",
+            month: "short",
+            day: "numeric",
+          })}
+        </Badge>
       ),
     },
   ];
 
-  return <Table columns={columns} dataSource={withdrawals} size="small" />;
+  return (
+    <DataTable
+      columns={columns}
+      data={withdrawals ?? []}
+      rowKey="_id"
+      searchPlaceholder="Search withdrawals..."
+      pageSize={10}
+    />
+  );
 };
 
 export default WithdrawalTable;

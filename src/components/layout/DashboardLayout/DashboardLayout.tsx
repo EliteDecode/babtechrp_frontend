@@ -1,4 +1,3 @@
-import { Box } from "@mui/material";
 import { Outlet } from "react-router-dom";
 import Sidebar from "./SideBar";
 import Header from "./Header";
@@ -8,7 +7,6 @@ import { useEffect } from "react";
 import { reset } from "@/services/features/auth/authSlice";
 import { AppDispatch } from "@/store";
 import useHandleResizeSidebar from "@/hooks/useHandleResizeSidebar";
-import Footer from "../GeneralLayout/Footer";
 import AlertProfileUpdate from "@/components/dashboard_components/AlertProfileUpdate";
 
 const DashboardLayout = () => {
@@ -16,43 +14,41 @@ const DashboardLayout = () => {
   const { isSuccess, message } = useSelector((state: any) => state.auth);
   const { user } = useSelector((state: any) => state.user);
   const dispatch = useDispatch<AppDispatch>();
+
   useEffect(() => {
-    if (isSuccess && message == "Login Successfully") {
-      toast.success("Login Successfull");
+    if (isSuccess && message === "Login Successfully") {
+      toast.success("Login Successful");
     }
     dispatch(reset());
   }, [isSuccess]);
 
   return (
-    <div>
-      {user?.isProfileUpdated == false && <AlertProfileUpdate />}
-      <Box
-        className={`flex flex-wrap h-screen  ${
-          isSidebar ? "overflow-y-hidden" : "overflow-y-scroll"
+    <div className="h-screen flex overflow-hidden">
+      {user?.isProfileUpdated === false && <AlertProfileUpdate />}
+
+      {/* Sidebar overlay on mobile */}
+      {isSidebar && (
+        <div
+          className="fixed inset-0 bg-black/30 z-20 md:hidden"
+          onClick={() => setIsSidebar(false)}
+        />
+      )}
+
+      {/* Sidebar */}
+      <div
+        className={`sidebar transit z-30 flex-shrink-0 ${
+          isSidebar ? "showSidebar" : ""
         }`}>
-        <Box
-          className={`sidebar transit  bg-white z-30 ${
-            isSidebar ? "showSidebar  " : "sm:w-[0%]"
-          }`}
-          sx={{
-            left: {
-              xs: isSidebar ? "0" : "-100%",
-              sm: isSidebar ? "0" : "-100%", // Keep sidebar hidden for small screens
-            },
-          }}>
-          <Sidebar setIsSidebar={setIsSidebar} isSidebar={isSidebar} />
-        </Box>
-        <Box
-          className={`${
-            isSidebar ? "header" : "sm:w-[100%]"
-          } header transit  bg-white w-[100%]`}>
-          <Header setIsSidebar={setIsSidebar} isSidebar={isSidebar} />
-          <Box className=" p-5 h-screen w-full overflow-y-scroll bg-[#fafafa] ">
-            <Outlet />
-          </Box>
-          <Footer />
-        </Box>
-      </Box>
+        <Sidebar setIsSidebar={setIsSidebar} isSidebar={isSidebar} />
+      </div>
+
+      {/* Main column */}
+      <div className="header transit flex flex-col flex-1 overflow-hidden bg-[#f8fafc]">
+        <Header setIsSidebar={setIsSidebar} isSidebar={isSidebar} />
+        <main className="flex-1 overflow-y-auto p-5">
+          <Outlet />
+        </main>
+      </div>
     </div>
   );
 };

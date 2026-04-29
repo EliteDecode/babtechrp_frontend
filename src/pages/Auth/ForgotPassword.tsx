@@ -1,40 +1,62 @@
 import ForgotPasswordForm from "@/components/auth/ForgotPasswordForm";
 import useForgotPasswordForm from "@/hooks/form-hooks/useForgotPasswordForm";
-import { Box } from "@mui/material";
-import { Typography } from "antd";
+import { Link } from "react-router-dom";
+import { MdOutlineMarkEmailRead } from "react-icons/md";
 
 const ForgotPassword = () => {
   const { isSentMail } = useForgotPasswordForm();
 
-  return (
-    <Box className="sm:w-[26%] w-[95%] border-white m-auto rounded-lg bg-white  p-5 flex flex-col items-center justify-center">
-      {isSentMail ? (
-        <Box className="w-full">
-          <Typography
-            className="text-[22px] font-bold"
-            style={{ fontFamily: "segoe ui" }}>
-            Check your email
-          </Typography>
-          <Typography className="text-[12px] text-[#acaba9]">
-            We have sent a password reset link to your email
-          </Typography>
-        </Box>
-      ) : (
-        <Box className="">
-          <Typography
-            className="text-[22px] font-bold"
-            style={{ fontFamily: "segoe ui" }}>
-            Forgot Password?
-          </Typography>
-          <Typography className="text-[12px] text-[#acaba9]">
-            Enter your email address and we'll send you a link to reset your
-          </Typography>
+  if (isSentMail) {
+    return (
+      <div className="w-full text-center py-4">
+        <div className="w-14 h-14 rounded-full bg-green-50 flex items-center justify-center mx-auto mb-4">
+          <MdOutlineMarkEmailRead size={28} className="text-green-500" />
+        </div>
+        <h1
+          className="text-2xl font-bold text-gray-900 mb-2"
+          style={{ fontFamily: "eczar" }}>
+          Check your email
+        </h1>
+        <p className="text-gray-400 text-sm leading-relaxed">
+          We sent a password reset link to your email address. Check your inbox
+          and follow the instructions.
+        </p>
+        <Link
+          to="/auth/login"
+          className="mt-6 inline-block text-xs text-primary font-semibold hover:underline">
+          Back to Sign In
+        </Link>
+      </div>
+    );
+  }
 
-          {/* <SignUpOptions /> */}
-          <ForgotPasswordForm />
-        </Box>
-      )}
-    </Box>
+  return (
+    <div className="w-full">
+      <div className="mb-6">
+        <h1
+          className="text-2xl font-bold text-gray-900"
+          style={{ fontFamily: "eczar" }}>
+          Forgot Password?
+        </h1>
+        <p className="text-gray-400 text-sm mt-1 leading-relaxed">
+          Enter your email address and we'll send you a link to reset your
+          password.
+        </p>
+      </div>
+
+      <ForgotPasswordForm />
+
+      <div className="mt-5">
+        <p className="text-xs text-gray-500">
+          Remember your password?{" "}
+          <Link
+            to="/auth/login"
+            className="text-primary font-semibold hover:underline">
+            Sign In
+          </Link>
+        </p>
+      </div>
+    </div>
   );
 };
 

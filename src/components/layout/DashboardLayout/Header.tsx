@@ -1,55 +1,56 @@
-import { Button } from "@/components/ui/button";
 import ButtonSpinners from "@/helpers/ButtonSpinners";
 import useDashboardHeader from "@/hooks/useDashboardHeader";
 import { DashboardNavbarProps } from "@/types/majorTypes";
-import { Logout } from "@mui/icons-material";
-import { Box } from "@mui/material";
-import { Typography } from "antd";
-import { MdMenu } from "react-icons/md";
+import { LogOut, Menu } from "lucide-react";
 
 const Header = ({ setIsSidebar, isSidebar }: DashboardNavbarProps) => {
-  const { handleLogout, dashboardTitle, isLoading, user } =
-    useDashboardHeader();
+  const { handleLogout, dashboardTitle, isLoading, user } = useDashboardHeader();
+
+  const initials = user?.fullname
+    ?.split(" ")
+    .map((n: string) => n[0])
+    .join("")
+    .toUpperCase()
+    .slice(0, 2);
 
   return (
-    <Box className="p-3 flex items-center justify-between sticky top-0 border-b bg-white z-10 border-gray-100">
-      <Button
-        className="flex space-x-2 items-center justify-center bg-white hover:bg-gray-100 shadow-primary shadow-sm cursor-pointer hover:shadow-sm  rounded-full"
-        onClick={() => setIsSidebar(!isSidebar)}>
-        <MdMenu size={17} className="text-secondary" />
+    <header className="sticky top-0 z-10 bg-white border-b border-gray-100 px-4 py-2.5 flex items-center justify-between">
+      {/* Left: menu toggle + page title */}
+      <div className="flex items-center gap-3">
+        <button
+          onClick={() => setIsSidebar(!isSidebar)}
+          className="w-8 h-8 flex items-center justify-center rounded-lg text-gray-500 hover:bg-gray-100 transition-colors">
+          <Menu size={18} />
+        </button>
         <span
-          className="text-secondary text-[11px] font-bold mt-0.5"
+          className="text-sm font-semibold text-gray-800 hidden sm:block"
           style={{ fontFamily: "eczar" }}>
           {dashboardTitle}
         </span>
-      </Button>
-      <Box className="flex sm:items-center justify-end flex-wrap space-x-2">
-        <Typography
-          className="sm:text-[15px] text-[12px] font-bold"
-          style={{ fontFamily: "eczar" }}>
-          Hi, {user?.fullname} 👋{" "}
-        </Typography>
-        <Button
-          size="sm"
+      </div>
+
+      {/* Right: user info + logout */}
+      <div className="flex items-center gap-2.5">
+        <div className="hidden sm:block text-right">
+          <p className="text-xs font-semibold text-gray-800 leading-tight">
+            {user?.fullname}
+          </p>
+          <p className="text-[10px] text-gray-400 leading-tight">
+            User Account
+          </p>
+        </div>
+        <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-white text-[11px] font-bold shrink-0">
+          {initials}
+        </div>
+        <button
           onClick={handleLogout}
           disabled={isLoading}
-          variant="secondary"
-          className="flex items-center bg-gray-200 hover:bg-gray-300 space-x-1">
-          {isLoading ? (
-            <ButtonSpinners />
-          ) : (
-            <>
-              <Logout style={{ fontSize: 13, color: "red" }} />
-              <Typography
-                className="text-[12px]  text-black"
-                style={{ fontFamily: "eczar" }}>
-                Logout
-              </Typography>
-            </>
-          )}
-        </Button>
-      </Box>
-    </Box>
+          title="Logout"
+          className="w-8 h-8 flex items-center justify-center rounded-lg text-gray-400 hover:text-red-500 hover:bg-red-50 transition-colors">
+          {isLoading ? <ButtonSpinners /> : <LogOut size={15} />}
+        </button>
+      </div>
+    </header>
   );
 };
 

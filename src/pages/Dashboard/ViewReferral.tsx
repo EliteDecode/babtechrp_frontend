@@ -1,17 +1,15 @@
 import UpdateReferralForm from "@/components/dashboard_components/forms/UpdateReferralForm";
 import ReferralDetails from "@/components/dashboard_components/ReferralDetails";
+import PageHeader from "@/components/ui/PageHeader";
 import Loader from "@/helpers/Loader";
 import { FetchSingleReferralDetails } from "@/services/features/referral/referralSlice";
 import { AppDispatch } from "@/store";
-import { Box } from "@mui/material";
-import { Typography } from "antd";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 
 const ViewReferral = () => {
   const { referralId } = useParams();
-
   const { isLoading, singleReferral } = useSelector(
     (state: any) => state.referral
   );
@@ -21,37 +19,37 @@ const ViewReferral = () => {
     if (referralId) dispatch(FetchSingleReferralDetails(referralId));
   }, []);
 
-  return (
-    <Box>
-      {isLoading && !singleReferral ? (
-        <Loader />
-      ) : (
-        <Box className="grid sm:grid-cols-2 grid-cols-1 sm:gap-4 gap-2">
-          <Box className="sm:w-[80%] w-full rounded-md shadow-md bg-white m-auto border p-5 mt-5 ">
-            <Typography
-              className="text-[17px] font-bold"
-              style={{ fontFamily: "eczar" }}>
-              Referral Details
-            </Typography>
-            <ReferralDetails />
-          </Box>
+  if (isLoading && !singleReferral) return <Loader />;
 
-          <Box className="sm:w-[80%] w-full rounded-md shadow-md bg-white m-auto border p-5 mt-5 ">
-            <Typography
-              className="text-[17px] font-bold"
-              style={{ fontFamily: "eczar" }}>
-              Edit Referral.
-            </Typography>
-            <Typography className="text-[12px] font-semibold -mt-1 text-[#acaba9]">
-              Please enter referral details below to update
-            </Typography>
-            <Box>
-              <UpdateReferralForm />
-            </Box>
-          </Box>
-        </Box>
-      )}
-    </Box>
+  return (
+    <div>
+      <PageHeader
+        title="Referral Details"
+        backHref="/dashboard/referrals"
+        backLabel="Back to Referrals"
+      />
+      <div className="grid sm:grid-cols-2 grid-cols-1 gap-4">
+        <div className="bg-white rounded-xl border border-gray-100 p-5">
+          <h2
+            className="text-sm font-bold text-gray-800 mb-4"
+            style={{ fontFamily: "eczar" }}>
+            Information
+          </h2>
+          <ReferralDetails />
+        </div>
+        <div className="bg-white rounded-xl border border-gray-100 p-5">
+          <h2
+            className="text-sm font-bold text-gray-800 mb-1"
+            style={{ fontFamily: "eczar" }}>
+            Edit Referral
+          </h2>
+          <p className="text-xs text-gray-400 mb-4">
+            Update the referral details below
+          </p>
+          <UpdateReferralForm />
+        </div>
+      </div>
+    </div>
   );
 };
 

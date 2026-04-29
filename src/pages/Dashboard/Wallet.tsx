@@ -7,7 +7,6 @@ import {
   FetchUserWithdrawals,
 } from "@/services/features/wallet/walletSlice";
 import { AppDispatch } from "@/store";
-import { Box } from "@mui/material";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -19,24 +18,49 @@ const Wallet = () => {
     dispatch(FetchUserWallet());
     dispatch(FetchUserWithdrawals());
   }, []);
+
+  if (isLoading && !wallets) return <Loader />;
+
   return (
-    <Box>
-      {isLoading && !wallets ? (
-        <Loader />
-      ) : (
-        <>
-          <Box className="mb-5">
-            <WithdrawalForm />
-          </Box>
-          <Box className="space-y-4">
-            <WalletCardDisplay />
-            <Box className=" border-gray-200 shadow-md border px-5 rounded-lg sm:overflow-x-auto overflow-x-scroll">
-              <TransactionTable />
-            </Box>
-          </Box>
-        </>
-      )}
-    </Box>
+    <div className="space-y-5">
+      <div className="flex items-center justify-between">
+        <div>
+          <h1
+            className="text-lg font-bold text-gray-900"
+            style={{ fontFamily: "eczar" }}>
+            My Wallet
+          </h1>
+          <p className="text-xs text-gray-400 mt-0.5">
+            Manage your earnings and withdrawals
+          </p>
+        </div>
+      </div>
+
+      {/* Withdrawal form */}
+      <div className="bg-white rounded-xl border border-gray-100 p-5">
+        <h2
+          className="text-sm font-bold text-gray-800 mb-4"
+          style={{ fontFamily: "eczar" }}>
+          Request Withdrawal
+        </h2>
+        <WithdrawalForm />
+      </div>
+
+      {/* Wallet stat cards */}
+      <WalletCardDisplay />
+
+      {/* Transactions */}
+      <div className="bg-white rounded-xl border border-gray-100 overflow-hidden">
+        <div className="px-5 py-4 border-b border-gray-100">
+          <h2
+            className="text-sm font-bold text-gray-800"
+            style={{ fontFamily: "eczar" }}>
+            Transaction History
+          </h2>
+        </div>
+        <TransactionTable />
+      </div>
+    </div>
   );
 };
 
