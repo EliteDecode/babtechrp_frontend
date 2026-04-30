@@ -12,8 +12,8 @@ const RegisterForm = () => {
   const { formik, handleTogglePasswordVisibility, showPassword, isLoading } =
     useRegisterForm();
   return (
-    <Box className=" py-2">
-      <form onSubmit={formik.handleSubmit}>
+    <Box>
+      <form onSubmit={formik.handleSubmit} className="space-y-1.5">
         {signUpInputs?.map((item, index) => (
           <Box key={index}>
             <Label className="text-[11px] text-[#0009]" htmlFor={item.id}>
@@ -58,12 +58,12 @@ const RegisterForm = () => {
             </Box>
           </Box>
         ))}
-        <Box className="mt-5">
+        <Box className="mt-3">
           <Button
             disabled={isLoading}
             className="w-full"
             style={{ fontFamily: "eczar" }}>
-            {isLoading ? <ButtonSpinners /> : "  Sign Up"}
+            {isLoading ? <ButtonSpinners /> : "Sign Up"}
           </Button>
         </Box>
       </form>

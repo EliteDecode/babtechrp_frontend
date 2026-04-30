@@ -13,8 +13,8 @@ const LoginForm = () => {
     useLoginForm();
 
   return (
-    <Box className="space-y-2 py-2">
-      <form onSubmit={formik.handleSubmit}>
+    <Box>
+      <form onSubmit={formik.handleSubmit} className="space-y-1.5">
         {signInInputs?.map((item, index) => (
           <Box key={index}>
             <Label className="text-[11px] text-[#0009]" htmlFor={item.id}>
@@ -59,7 +59,7 @@ const LoginForm = () => {
             </Box>
           </Box>
         ))}
-        <Box className="mt-5">
+        <Box className="mt-3">
           <Button
             className="w-full"
             type="submit"

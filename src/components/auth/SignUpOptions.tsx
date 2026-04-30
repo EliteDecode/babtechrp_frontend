@@ -6,7 +6,7 @@ import { Box } from "@mui/material";
 
 const SignUpOptions = () => {
   return (
-    <Box className=" py-4 flex  border-gray-200 items-center justify-center space-x-3">
+    <Box className="py-2 flex border-gray-200 items-center justify-center space-x-3">
       <a href={`${baseURL}/auth/google`}>
         {" "}
         <img

@@ -5,20 +5,20 @@ import { Link } from "react-router-dom";
 const Login = () => {
   return (
     <div className="w-full">
-      <div className="mb-6">
+      <div className="mb-3">
         <h1
-          className="text-2xl font-bold text-gray-900"
+          className="text-xl font-bold text-gray-900"
           style={{ fontFamily: "eczar" }}>
           Welcome back
         </h1>
-        <p className="text-gray-400 text-sm mt-1">
+        <p className="text-gray-400 text-xs mt-0.5">
           Sign in to your BST account
         </p>
       </div>
 
       <SignUpOptions />
 
-      <div className="relative my-5">
+      <div className="relative my-3">
         <div className="absolute inset-0 flex items-center">
           <div className="w-full border-t border-gray-100" />
         </div>
@@ -31,7 +31,7 @@ const Login = () => {
 
       <LoginForm />
 
-      <div className="mt-5 space-y-2">
+      <div className="mt-3 space-y-1.5">
         <p className="text-xs text-gray-500">
           Don't have an account?{" "}
           <Link
