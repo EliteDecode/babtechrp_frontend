@@ -1,6 +1,5 @@
-import { InfoCardDisplayProps } from "@/types/majorTypes";
 import { IWithdrawal } from "@/types/wallet.types";
-import { ArrowDownRight, ArrowUpRight, TrendingDown, TrendingUp } from "lucide-react";
+import { TrendingDown, TrendingUp } from "lucide-react";
 import { useSelector } from "react-redux";
 
 import debitIcon from "@/assets/icons/debit.png";
